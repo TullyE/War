@@ -1,12 +1,13 @@
 #Vars and Imports
 
 import random
-suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
+suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs') 
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
             'Nine':9, 'Ten':10, 'Jack':11, 'Queen':12, 'King':13, 'Ace':14}
-#############################################################
-#Card:
+
+########################################################################################################################
+#Card Class:
 #Suit, Rank, Value
 
 class Card:
@@ -18,18 +19,18 @@ class Card:
         
     def __str__(self):
         return self.rank + " of " + self.suit
+
 #############################################################
-#Deck:
+
+#Deck Class:
 #Create all 52 Card objects
 #Hold as a list of Card objects
 #Shuffle a Deck through a method call
 #Deal cards from the Deck object
-'''
-Deck class holds a list of card objects
 
-This means the Deck class will return Card class object instances,
-not just normal python data types.
-'''
+#Deck class holds a list of card objects
+#This means the Deck class will return Card class object instances,
+#not just normal python data types.
 
 class Deck:
     
@@ -39,20 +40,21 @@ class Deck:
         
         for suit in suits:
             for rank in ranks:
-                #Create the Card Object
+                #Create the Card Object with every suit/rank
                 created_card = Card(suit,rank)
                 
                 self.all_cards.append(created_card)
                 
     def shuffle(self):
-
         random.shuffle(self.all_cards)
+
     def deal_one(self):
         return self.all_cards.pop()
-################################################################
+
+########################################################################################################################
+
 #Player:
 #Hold a players hand, add or remove cards from that hand
-
 class Player:
     
     def __init__(self, name,):
@@ -73,15 +75,14 @@ class Player:
     
     def __str__(self):
         return f'Player {self.name} had {len(self.all_cards)} cards.'
-#######################################################################
 
+########################################################################################################################
 #Game Setup
+    #Game Vars
 player1 = Player('ONE')
 player2 = Player('TWO')
-
 new_deck = Deck()
 new_deck.shuffle()
-
 game_on = True
 roundnum = 0
 
@@ -92,12 +93,16 @@ for x in range(26): #Zero is optional range(0, 26)
 #While game_on
 while game_on:
     
+    at_war = True
     roundnum += 1
-    print(f'Currently on {roundnum}')
-    if roundnum > 10000:
-        print('THE GAME WAS A TIE')
+
+    if roundnum > 10000: #IS THE GAME EVER GOING TO END?
+        print('THE GAME WAS A TIE\n(Game may have continued)')
         game_on = False
         break
+    
+    print(f'Currently on {roundnum}:')
+
     if len(player1.all_cards) == 0:
         print('Player One, out of cards! Player Two Wins!')
         game_on = False
@@ -108,23 +113,20 @@ while game_on:
         break
     
     #Start a new round
-    '''
-    player1.all_cards is total cards in player one's deck
-    player_one_cards is the cards player one has on the table
-    '''
+    #player1.all_cards is total cards in player one's deck
+    #player_one_cards is the cards player one has on the table
+
     player_one_cards = []
     player_one_cards.append(player1.remove_one())
     player_two_cards = []
     player_two_cards.append(player2.remove_one())
     
     #while at_war
-    
     '''
     Assume that war is true and if it's not true break out of the loop
-    
     Personally I wouldn't code it this way but I'm doing this as a 100% code along and this is how he does it
     '''
-    at_war = True
+    print(f'\t{player_one_cards[-1]} v.s. {player_two_cards[-1]}')
     while at_war:
         
         if player_one_cards[-1].value > player_two_cards[-1].value:
