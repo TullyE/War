@@ -94,7 +94,10 @@ while game_on:
     
     roundnum += 1
     print(f'Currently on {roundnum}')
-    
+    if roundnum > 10000:
+        print('THE GAME WAS A TIE')
+        game_on = False
+        break
     if len(player1.all_cards) == 0:
         print('Player One, out of cards! Player Two Wins!')
         game_on = False
